@@ -15,7 +15,7 @@ class SearchResults
         $this->executionTime = $executionTime;    
     }
 
-    public function getExecutionTim()
+    public function getExecutionTime()
     {
         return $this->executionTime;        
     }
