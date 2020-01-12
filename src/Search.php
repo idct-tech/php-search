@@ -116,13 +116,12 @@ class Search
 
         $max = count($idsWeight);
         $start = $page*$perPage;
-        $results = [
-            'exec_time' => (time() - $startTime),
-            'results_count' => $max,
-            'chunk' => ($start >= $max) ? [] : array_slice($idsWeight,$page*$perPage, $perPage, true)
-        ];
         
-        return $results;    
+        return new SearchResults(
+            ($start >= $max) ? [] : array_slice($idsWeight,$page*$perPage, $perPage, true),
+            $max,
+            time() - $startTime
+        );    
     }
 
     public function add(int $id, Locale $locale, string $text)
