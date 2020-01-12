@@ -2,8 +2,10 @@
 
 namespace IDCT\Search;
 
-use PDO;
-use PDOStatement;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\FetchMode;
+use Doctrine\DBAL\Statement;
+use Doctrine\DBAL\ParameterType;
 use IDCT\FileArrayCache;
 
 class Search
@@ -50,16 +52,16 @@ class Search
         return $sentences;
     }   
 
-    protected PDOStatement $removeStmt;
-    protected PDOStatement $addStmt;
-    protected PDO $pdo;
+    protected Statement $removeStmt;
+    protected Statement $addStmt;
+    protected Connection $db;
     protected string $prefix;
     
-    public function __construct(PDO $database, string $prefix = '', string $cachePath = null)
+    public function __construct(Connection $database, string $prefix = '', string $cachePath = null)
     {  
         $cachePath = is_string($cachePath) ? $cachePath : sys_get_temp_dir();
         $this->cache = new FileArrayCache($cachePath, 2);
-        $this->pdo = $database;
+        $this->db = $database;
         $this->prefix = $prefix;
         $this->removeStmt = $database->prepare('DELETE FROM ' . $this->prefix . 'search WHERE id = ?');
         $this->selectStmt = $database->prepare('SELECT sentence, id FROM ' . $this->prefix . 'search WHERE locale = :locale and sentence = :sentence limit :limit offset :offset');
@@ -89,13 +91,13 @@ class Search
                 $limit = 1000;
                 $offset = 0;
                 do {                
-                $this->selectStmt->bindValue(':locale', $locale);
-                $this->selectStmt->bindValue(':sentence', $sentence);
-                $this->selectStmt->bindValue(':limit', $limit, PDO::PARAM_INT);
-                $this->selectStmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+                $this->selectStmt->bindValue(':locale', $locale, ParameterType::STRING);
+                $this->selectStmt->bindValue(':sentence', $sentence, ParameterType::STRING);
+                $this->selectStmt->bindValue(':limit', $limit, ParameterType::INTEGER);
+                $this->selectStmt->bindValue(':offset', $offset, ParameterType::INTEGER);
                 $this->selectStmt->execute();
 
-                while($row = $this->selectStmt->fetch(\PDO::FETCH_ASSOC)) {
+                while($row = $this->selectStmt->fetch(FetchMode::ASSOCIATIVE)) {
                     $id = $row['id'];
                     if (!isset($idsWeight[$id])) {
                         $idsWeight[$id] = 0;
