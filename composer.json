@@ -1,0 +1,49 @@
+{
+    "name": "idct/php-search",
+    "description": "PHP + PDO search engine",
+    "type": "library",
+    "keywords": [
+        "pdo",
+        "php",
+        "mysql",        
+        "search",
+        "fulltext"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "IDCT Bartosz Pachołek",
+            "email": "bartosz@idct.pl"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^7.1",
+        "ext-pdo": "*",
+        "myclabs/php-enum": "^1.7.2",
+        "idct/php-array-file-cache": "dev-master"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "phpunit/phpunit": "^7.5",
+        "php-mock/php-mock-phpunit": "^2.5",
+        "php-coveralls/php-coveralls": "^2.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "IDCT\\Search\\": "src/"
+        }
+    },
+    "scripts": {
+        "test": [
+            "./vendor/phpunit/phpunit/phpunit"
+        ],
+        "fix": [
+            "bash fix-code.sh"
+        ],
+        "generate-coveralls": [
+            "./vendor/php-coveralls/php-coveralls/bin/php-coveralls -v"
+        ]
+
+    }
+}
