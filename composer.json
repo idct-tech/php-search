@@ -22,7 +22,7 @@
         "ext-pdo": "*",
         "myclabs/php-enum": "^1.7.2",
         "idct/php-array-file-cache": "dev-master",
-        "doctrine/dbal": "^4.0@dev"
+        "doctrine/dbal": "^2.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.16",
