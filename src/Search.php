@@ -128,12 +128,12 @@ class Search
     {
         $sentences = $this->generateSentences($text);
         //in case database supports transactions...
-        $this->pdo->beginTransaction();
+        $this->db->beginTransaction();
         $this->remove($id);
         foreach ($sentences as $sentence) {
             $this->addStmt->execute([$locale, $sentence, $id]);
         }
-        $this->pdo->commit();
+        $this->db->commit();
 
         $this->cache->clearCache();
     }
