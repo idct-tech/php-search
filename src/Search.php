@@ -52,10 +52,10 @@ class Search
         return $sentences;
     }   
 
-    protected Statement $removeStmt;
-    protected Statement $addStmt;
-    protected Connection $db;
-    protected string $prefix;
+    protected $removeStmt;
+    protected $addStmt;
+    protected $db;
+    protected $prefix;
     
     public function __construct(Connection $database, string $prefix = '', string $cachePath = null)
     {  
