@@ -60,7 +60,7 @@ class Search
     public function __construct(Connection $database, string $prefix = '', string $cachePath = null)
     {  
         $cachePath = is_string($cachePath) ? $cachePath : sys_get_temp_dir();
-        $this->cache = new FileArrayCache($cachePath, 2);
+        $this->cache = new FileArrayCache($cachePath, 2, null, new \IDCT\Codec\SerializeCodec());
         $this->db = $database;
         $this->prefix = $prefix;
         $this->removeStmt = $database->prepare('DELETE FROM ' . $this->prefix . 'search WHERE id = ?');
