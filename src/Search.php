@@ -124,12 +124,14 @@ class Search
         );    
     }
 
-    public function add(int $id, Locale $locale, string $text)
+    public function add(int $id, Locale $locale, string $text, bool $keep = false)
     {
         $sentences = $this->generateSentences($text);
         //in case database supports transactions...
         $this->db->beginTransaction();
-        $this->remove($id);
+        if ($keep = false) {
+            $this->remove($id);
+        }
         foreach ($sentences as $sentence) {
             $this->addStmt->execute([$locale, $sentence, $id]);
         }
